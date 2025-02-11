@@ -36,16 +36,21 @@ app.use("/api/transactions/", transactionsRoutes);
 app.use("/api/users/", usersRoutes);
 
 //connect to db et lancement du server
+const mongoUri = "mongodb://localhost:27017" // process.env.MONG_URI
+if (!mongoUri) {
+  throw Error("mongoUri undefined");
+}
 mongoose
-  .connect(process.env.MONG_URI)
+  .connect(mongoUri)
   .then(() => {
     // listen requests
     console.log(`connected to db`);
   })
   .catch((error) => {
-    // console.log(error);
+    console.log(error);
   });
 
-app.listen(process.env.PORT, () => {
-  console.log(`listening on port ${process.env.PORT}`);
+const port = 40200;
+app.listen(port, () => {
+  console.log(`listening on port ${port}`);
 });
